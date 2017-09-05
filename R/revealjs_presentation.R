@@ -33,6 +33,7 @@
 #'   Templates section below for more details).
 #' @param extra_dependencies Additional function arguments to pass to the base R
 #'   Markdown HTML output formatter [rmarkdown::html_document_base()].
+#' @param revealjs_path Optional path for a pre-existing reveal.js directory
 #' @param ... Ignored
 #'   
 #' @return R Markdown output format to pass to \code{\link{render}}
@@ -85,6 +86,7 @@ revealjs_presentation <- function(incremental = FALSE,
                                   lib_dir = NULL,
                                   pandoc_args = NULL,
                                   extra_dependencies = NULL,
+                                  revealjs_path=NULL,
                                   ...) {
   
   # function to lookup reveal resource
@@ -218,7 +220,7 @@ revealjs_presentation <- function(incremental = FALSE,
     args <- c()
     
     # reveal.js
-    revealjs_path <- system.file("reveal.js-3.3.0.1", package = "revealjs")
+    if (is.null(revealjs_path)) revealjs_path <- system.file("reveal.js-3.3.0.1", package = "revealjs")
     if (!self_contained || identical(.Platform$OS.type, "windows"))
       revealjs_path <- relative_to(
         output_dir, render_supporting_files(revealjs_path, lib_dir))
